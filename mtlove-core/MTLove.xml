@@ -39,7 +39,7 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="MTLove_Frame" hidden="true" frameStrata="TOOLTIP" parent="UIParent" inherits="BackdropTemplate">
+	<Frame name="MTLove_Frame" hidden="true" frameStrata="TOOLTIP" parent="UIParent" inherits="TooltipBackdropTemplate">
 		<Size>
 			<AbsDimension x="0" y="28"/>
 		</Size>
@@ -70,7 +70,7 @@
 			</Layer>
 		</Layers>
 		<Frames>
-			<Frame name="$parent_Counter" hidden="true" frameStrata="TOOLTIP" inherits="BackdropTemplate">
+			<Frame name="$parent_Counter" hidden="true" frameStrata="TOOLTIP" inherits="TooltipBackdropTemplate">
 				<Size>
 					<AbsDimension x="0" y="23"/>
 				</Size>
@@ -156,7 +156,7 @@
 		</Frames>
 	</Frame>
 
-  	<Frame name="MTLove_TT_Frame" hidden="true" frameStrata="TOOLTIP" parent="UIParent" inherits="BackdropTemplate">
+  	<Frame name="MTLove_TT_Frame" hidden="true" frameStrata="TOOLTIP" parent="UIParent" inherits="TooltipBackdropTemplate">
 		<Size>
 			<AbsDimension x="0" y="48"/>
 		</Size>
@@ -223,7 +223,7 @@
 			</StatusBar>
 		</Frames>
   	</Frame>
-	<Frame name="MTLove_TT_Frame_Counter" hidden="true" frameStrata="TOOLTIP" parent="UIParent" inherits="BackdropTemplate">
+	<Frame name="MTLove_TT_Frame_Counter" hidden="true" frameStrata="TOOLTIP" parent="UIParent" inherits="TooltipBackdropTemplate">
 		<Size>
 			<AbsDimension x="0" y="23"/>
 		</Size>
@@ -251,7 +251,7 @@
 			</Layer>
 		</Layers>
 	</Frame>
-	<Frame name="MTLove_TargetCounter_Counter" hidden="true" parent="TargetFrame" inherits="BackdropTemplate">
+	<Frame name="MTLove_TargetCounter_Counter" hidden="true" parent="TargetFrame" inherits="TooltipBackdropTemplate">
 		<Size>
 			<AbsDimension x="0" y="23"/>
 		</Size>
@@ -279,7 +279,7 @@
 			</Layer>
 		</Layers>
 	</Frame>
-	<Frame name="MTLove_FocusCounter_Counter" hidden="true" parent="FocusFrame" inherits="BackdropTemplate">
+	<Frame name="MTLove_FocusCounter_Counter" hidden="true" parent="FocusFrame" inherits="TooltipBackdropTemplate">
 		<Size>
 			<AbsDimension x="0" y="23"/>
 		</Size>

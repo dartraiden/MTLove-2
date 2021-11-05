@@ -122,7 +122,7 @@ local alias_UnitPlayerOrPetInParty	= UnitPlayerOrPetInParty;
 local alias_UnitPlayerOrPetInRaid	= UnitPlayerOrPetInRaid;
 local alias_UnitPlayerControlled	= UnitPlayerControlled;
 local alias_UnitAffectingCombat		= UnitAffectingCombat;
-local alias_UnitIsTapped			= UnitIsTapped;
+local alias_UnitIsTapDenied			= UnitIsTapDenied;
 local alias_GetNumPartyMembers      = GetNumSubgroupMembers;
 local alias_GetNumRaidMembers       = GetNumGroupMembers;
 local alias_GetPartyAssignment		= GetPartyAssignment;
@@ -324,7 +324,7 @@ function MTLove_OnUpdate_Frames(Self_GroupMode, Self_GroupMembers)
 
 		if (mo_Unit_NotDead and Self_PartyOk and mo_Unit_AffectedOk) then
 			local mot_Unit_NotDead		= (not alias_UnitIsDeadOrGhost(mot)) and alias_UnitExists(mot);
-			local mot_Unit_Stun			= (not alias_UnitExists(mot)) and alias_UnitAffectingCombat(mo) and alias_UnitIsTapped(mo);
+			local mot_Unit_Stun			= (not alias_UnitExists(mot)) and alias_UnitAffectingCombat(mo) and alias_UnitIsTapDenied(mo);
 			local mot_Unit_Mo_Self		= alias_UnitIsUnit(mo, mot);
 			local mot_Unit_Nothing		= (not mot_Unit_Stun) and (not alias_UnitExists(mot));
 

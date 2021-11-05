@@ -1,0 +1,20 @@
+## Title: MTLove 2
+## Interface: 50400
+## Version: 2.4.4a
+## X-Date: 2013/10/9## Author: malfdawg
+## X-Email: malfunction85@gmail.com
+## X-Website: http://randoom.org/Software/MTLove2
+## Notes: This addon adds a "target of mouseover" function to the wow-client and is licensed under the GNU GPL, see gpl_v2.txt for details.
+## Notes-deDE: Dieses Addon fügt dem WOW-Client eine "target of mouseover" Funktion hinzu und ist unter der GNU GPL (siehe gpl_v2.txt) lizenziert.
+## OptionalDeps: myAddOns, tipbuddy, oRA3, CT_RaidAssist;
+## SavedVariablesPerCharacter: MTLove_SavedVariables
+## X-Category: MYADDONS_CATEGORY_COMBAT
+## X-Help: MTLove_UI_Help
+## X-OptionsFrame: MTLove_GUI_Frame
+MTLoveLocalization_on.lua
+mtlove-core\MTLoveVariables.lua
+mtlove-core\MTLoveLocalization.lua
+mtlove-core\MTLoveUI.lua
+mtlove-core\MTLove.lua
+mtlove-core\MTLove.xml
+mtlove-core\MTLoveUI.xml

@@ -1,0 +1,866 @@
+<!--	MTLove 2 is a 'small' World Of Warcraft Addon which adds
+		a "target of mouseover" function to the client.
+		Copyright (C) 2006-2013 Herrmann, Tom
+		from Randoom.org
+
+	edited by malfdawg	This file is part of MTLove 2.
+
+		MTLove 2 is free software; you can redistribute it and/or
+		modify it under the terms of the GNU General Public License
+		version 2 as published by the Free Software Foundation.
+	
+		MTLove 2 is distributed in the hope that it will be useful,
+		but WITHOUT ANY WARRANTY; without even the implied warranty of
+		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+		GNU General Public License for more details.
+	
+		You should have received a copy of the GNU General Public License
+		along with this program; if not, write to the Free Software
+		Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.	-->
+
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/ ..\FrameXML\UI.xsd">
+
+	<!-- Templates -->
+	
+	<FontString name="MTLoveOptionsSmallFontStringTemplate" inherits="GameFontHighlightSmall" nonspacewrap="true" justifyH="LEFT" justifyV="TOP" virtual="true">
+		<Size>
+			<AbsDimension y="32" x="0"/>
+		</Size>
+		<Anchors>
+			<Anchor point="RIGHT">
+				<Offset>
+					<AbsDimension x="-32" y="0"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+	</FontString>
+	<CheckButton name="MTLoveOptionsBaseCheckButtonTemplate" inherits="OptionsBaseCheckButtonTemplate" virtual="true">
+		<Scripts>
+			<OnLoad>
+				_G[self:GetName().."Text"]:SetText(_G[self:GetName() .. "_Text"]);
+			</OnLoad>
+			<OnClick>
+				MTLove_set_GUI_Settings_changed(true);
+				MTLove_GUI_refresh();
+				MTLove_UI_playSound(self:GetChecked());
+			</OnClick>
+		</Scripts>
+	</CheckButton>
+	<CheckButton name="MTLoveOptionsCheckButtonTemplate" inherits="MTLoveOptionsBaseCheckButtonTemplate" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" inherits="GameFontHighlight" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT">
+							<Offset>
+								<AbsDimension x="0" y="1"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</CheckButton>
+	<CheckButton name="MTLoveOptionsSmallCheckButtonTemplate" inherits="MTLoveOptionsBaseCheckButtonTemplate" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parentText" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="LEFT" relativePoint="RIGHT">
+							<Offset>
+								<AbsDimension x="0" y="1"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</CheckButton>
+	<Slider name="MTLoveOptionsSliderTemplate" inherits="OptionsSliderTemplate" virtual="true">
+		<Size x="156" y="17"/>
+		<Scripts>
+			<OnLoad>
+				_G[self:GetName().."Text"]:SetFontObject("GameFontNormalSmall");
+				_G[self:GetName().."Text"]:SetText(_G[self:GetName() .. "_Text"]);
+				_G[self:GetName().."High"]:SetText(MTLove_get_globalValues("UI_Frame_Offset_Slider_High"));
+				_G[self:GetName().."Low"]:SetText(MTLove_get_globalValues("UI_Frame_Offset_Slider_Low"));
+				self:SetMinMaxValues(MTLove_get_globalValues("Frame_Offset_Slider_Low"), MTLove_get_globalValues("Frame_Offset_Slider_High"));
+				self:SetValueStep(1);
+			</OnLoad>
+			<OnValueChanged>
+				MTLove_set_GUI_Settings_changed(true);
+			</OnValueChanged>
+		</Scripts>
+	</Slider>
+	<Button name="MTLoveOptionsButtonTemplate" inherits="OptionsButtonTemplate" virtual="true">
+		<Size x="1" y="22"/>
+		<NormalFont style="GameFontNormalSmall"/>
+		<DisabledFont style="GameFontDisableSmall"/>
+		<HighlightFont style="GameFontHighlightSmall"/>
+		<Scripts>
+			<OnLoad>
+				_G[self:GetName().."Text"]:SetText(_G[self:GetName() .. "_Text"]);
+				self:SetWidth(_G[self:GetName().."Text"]:GetWidth() + 20);
+			</OnLoad>
+		</Scripts>
+	</Button>
+	<Frame name="MTLoveOptionsFrameTemplate" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Title" inherits="GameFontNormalLarge" justifyH="LEFT" justifyV="TOP">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-16"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="$parent_SubText" inherits="MTLoveOptionsSmallFontStringTemplate" maxLines="3">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent_Title" relativePoint="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnLoad>
+				_G[self:GetName() .. "_Title"]:SetText(_G[self:GetName() .. "_Title" .. "_Text"]);
+				_G[self:GetName() .. "_SubText"]:SetText(_G[self:GetName() .. "_SubText" .. "_Text"]);
+				MTLove_GUI_onLoad(self);
+			</OnLoad>
+			<OnShow>
+				MTLove_GUI_refresh();
+			</OnShow>
+		</Scripts>
+	</Frame>
+
+	<!-- MTLove General Options Panel-->
+	
+	<Frame name="MTLove_GUI_General_Options_Panel" hidden="true" inherits="MTLoveOptionsFrameTemplate">
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="MTLove_GUI_FS_Frame_TT_Options" inherits="GameFontHighlight" justifyH="LEFT" text="MTLove_GUI_FS_Frame_TT_Options_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-255"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_UnitClassification" inherits="GameFontHighlight" justifyH="LEFT" text="MTLove_GUI_FS_UnitClassification_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-365"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="MTLove_GUI_BT_Frame" inherits="MTLoveOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="$parent_SubText" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="-2" y="-8"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Frame_Counter" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Frame">
+						<Offset>
+							<AbsDimension x="10" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Frame_Mo_Bar" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Frame_Counter">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Frame_Mot_Bar" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Frame_Mo_Bar">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<Slider name="MTLove_GUI_Slider_Frame_Offset_X" inherits="MTLoveOptionsSliderTemplate">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativeTo="$parent_SubText" relativePoint="BOTTOMRIGHT">
+						<Offset>
+							<AbsDimension x="16" y="-24"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Slider>
+			<Slider name="MTLove_GUI_Slider_Frame_Offset_Y" inherits="MTLoveOptionsSliderTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_Slider_Frame_Offset_X">
+						<Offset>
+							<AbsDimension x="0" y="-35" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</Slider>
+			<Button name="MTLove_GUI_BT_Offset_Reset" inherits="MTLoveOptionsButtonTemplate">
+				<Anchors>
+					<Anchor point="TOP" relativeTo="MTLove_GUI_Slider_Frame_Offset_Y">
+						<Offset>
+							<AbsDimension x="0" y="-30"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MTLove_GUI_Slider_Frame_Offset_X:SetValue(0);
+						MTLove_GUI_Slider_Frame_Offset_Y:SetValue(0);
+						MTLove_set_GUI_Settings_changed(true);
+						MTLove_GUI_refresh();
+						MTLove_UI_playSound(true);
+					</OnClick>
+				</Scripts>
+			</Button>
+			<CheckButton name="MTLove_GUI_BT_TT" inherits="MTLoveOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Frame_Mot_Bar">
+						<Offset>
+							<AbsDimension x="-10" y="-35"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+				<CheckButton name="MTLove_GUI_BT_TT_Counter" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_TT">
+							<Offset>
+								<AbsDimension x="10" y="-25"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Self_NotInParty" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_Frame_TT_Options">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_OutOfCombat" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Self_NotInParty">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Highlight" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_OutOfCombat">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Classify_by_Class" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_UnitClassification">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MTLove_GUI_BT_Classify_by_ArmorType:SetChecked(not self:GetChecked());
+						MTLove_set_GUI_Settings_changed(true);
+						MTLove_GUI_refresh();
+						MTLove_UI_playSound(self:GetChecked());
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Classify_by_ArmorType" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Classify_by_Class">
+						<Offset>
+							<AbsDimension x="185" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+	</Frame>
+
+	<!-- MTLove Unit Selection Panel-->
+	
+	<Frame name="MTLove_GUI_Unit_Selection_Panel" hidden="true" inherits="MTLoveOptionsFrameTemplate">
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="MTLove_GUI_FS_Mo" inherits="GameFontHighlight" justifyH="LEFT" text="MTLove_GUI_FS_Mo_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent_SubText" relativePoint="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_Mot" inherits="GameFontHighlight" justifyH="LEFT" text="MTLove_GUI_FS_Mot_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-210"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_MotSpecial" inherits="GameFontHighlight" justifyH="LEFT" text="MTLove_GUI_FS_MotSpecial_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-365"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="MTLove_GUI_BT_Mo_Friendly_PartyMember_Player" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_Mo">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_Friendly_PartyMember_Pet" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_Friendly_PartyMember_Player">
+						<Offset>
+							<AbsDimension x="130" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_Friendly_Player" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_Friendly_PartyMember_Player">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_Friendly_Pet" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_Friendly_PartyMember_Pet">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_Friendly_Npc" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_Friendly_Pet">
+						<Offset>
+							<AbsDimension x="130" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_Enemy_Player" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_Friendly_Player">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_Enemy_Pet" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_Friendly_Pet">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_Enemy_Npc" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_Friendly_Npc">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mo_Neutral_Npc" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mo_Enemy_Npc">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Self" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_Mot">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_OwnPet" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Self">
+						<Offset>
+							<AbsDimension x="130" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Friendly_PartyMember_Player" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Self">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Friendly_PartyMember_Pet" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_OwnPet">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Friendly_Player" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Friendly_PartyMember_Player">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Friendly_Pet" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Friendly_PartyMember_Pet">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Friendly_Npc" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Friendly_Pet">
+						<Offset>
+							<AbsDimension x="130" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Enemy_Player" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Friendly_Player">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Enemy_Pet" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Friendly_Pet">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Enemy_Npc" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Friendly_Npc">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Neutral_Npc" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Enemy_Npc">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Stun" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_MotSpecial">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Mo_Self" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Stun">
+						<Offset>
+							<AbsDimension x="130" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Mot_Nothing" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Mot_Mo_Self">
+						<Offset>
+							<AbsDimension x="130" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+	</Frame>
+
+	<!-- MTLove Counters Panel-->
+	
+	<Frame name="MTLove_GUI_Counters_Panel" hidden="true" inherits="MTLoveOptionsFrameTemplate">
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="MTLove_GUI_FS_About_Counter_Perf_Head" inherits="GameFontHighlight" justifyH="LEFT" text="MTLove_GUI_FS_About_Counter_Perf_Head_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent_SubText" relativePoint="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_About_Counter_Performance" inherits="MTLoveOptionsSmallFontStringTemplate" text="MTLove_GUI_FS_About_Counter_Performance_Text">
+					<Size>
+						<AbsDimension y="64" x="0"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_About_Counter_Perf_Head">
+							<Offset>
+								<AbsDimension x="10" y="-20"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_ExtraCounters" inherits="GameFontHighlight" justifyH="LEFT" text="MTLove_GUI_FS_ExtraCounters_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-160"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_Counter_Options" inherits="GameFontHighlight" justifyH="LEFT" text="MTLove_GUI_FS_Counter_Options_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="16" y="-220"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<!-- Displayed in any seperation mode -->
+			<CheckButton name="MTLove_GUI_BT_TargetCounter" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_ExtraCounters">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_FocusCounter" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_TargetCounter">
+						<Offset>
+							<AbsDimension x="185" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_SelfOwnPet" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_Counter_Options">
+						<Offset>
+							<AbsDimension x="10" y="-20"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_PET" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_SelfOwnPet">
+						<Offset>
+							<AbsDimension x="185" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_TANK" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_SelfOwnPet">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			
+			<!-- Display only when separate by class (== not by armorType) -->
+			
+			<CheckButton name="MTLove_GUI_BT_Count_WARRIOR" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_PET">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_DEATHKNIGHT" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_TANK">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_PALADIN" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_WARRIOR">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_PRIEST" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_DEATHKNIGHT">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_SHAMAN" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_PALADIN">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_DRUID" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_PRIEST">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_ROGUE" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_SHAMAN">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_MAGE" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_DRUID">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_WARLOCK" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_ROGUE">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_HUNTER" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_MAGE">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			
+			<!-- Display only when separate by armorType-->
+			
+			<CheckButton name="MTLove_GUI_BT_Count_PLATE" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_PET">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_MAIL" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_TANK">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_LEATHER" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_PLATE">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Count_CLOTH" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_Count_MAIL">
+						<Offset>
+							<AbsDimension x="0" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+	</Frame>
+
+	<!-- MTLove About Panel-->
+	
+	<Frame name="MTLove_GUI_About_Panel" hidden="true" inherits="MTLoveOptionsFrameTemplate">
+		<Layers>
+			<Layer level="OVERLAY">
+				<FontString name="MTLove_GUI_About_License" inherits="MTLoveOptionsSmallFontStringTemplate" text="MTLove_GUI_License">
+					<Size>
+						<AbsDimension y="128" x="0"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent_SubText" relativePoint="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_About_StatsPerformance" inherits="MTLoveOptionsSmallFontStringTemplate" text="MTLove_GUI_FS_About_StatsPerformance_Text">
+					<Size>
+						<AbsDimension y="64" x="0"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="26" y="-230"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_About_Stats_Cpu" inherits="GameFontHighlight" text="MTLove_GUI_FS_About_Stats_Cpu_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_About_StatsPerformance">
+							<Offset>
+								<AbsDimension x="0" y="-55"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+				<FontString name="MTLove_GUI_FS_About_Stats_Mem" inherits="GameFontHighlight" text="MTLove_GUI_FS_About_Stats_Mem_Text">
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_FS_About_Stats_Cpu">
+							<Offset>
+								<AbsDimension x="0" y="-15"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			<CheckButton name="MTLove_GUI_BT_About_Stats" inherits="MTLoveOptionsCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT">
+						<Offset>
+							<AbsDimension x="16" y="-205"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						MTLove_set_Stats_CPU_Usage(MTLove_GUI_Stats_Gathering);
+						MTLove_set_Stats_Memory_Usage(MTLove_GUI_Stats_Gathering);
+						MTLove_set_GUI_Settings_changed(true);
+						MTLove_GUI_refresh();
+						MTLove_UI_playSound(self:GetChecked());
+					</OnClick>
+				</Scripts>
+			</CheckButton>
+			<CheckButton name="MTLove_GUI_BT_Experimental_Features" inherits="MTLoveOptionsSmallCheckButtonTemplate">
+				<Anchors>
+					<Anchor point="TOPLEFT" relativeTo="MTLove_GUI_BT_About_Stats">
+						<Offset>
+							<AbsDimension x="0" y="-175"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+			</CheckButton>
+		</Frames>
+	</Frame>
+</Ui>

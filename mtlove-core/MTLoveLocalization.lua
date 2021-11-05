@@ -24,7 +24,7 @@ MTLove_GUI_License									= MTLove_get_globalValues("UI_Name") .. " is free sof
 MTLove_UI_OnLoad									= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version") .. " by Herrmann, Tom from Randoom.org, edited by malfdawg.";
 MTLove_UI_Releaseversion							= "\nPlease send your feedback to " .. MTLove_get_globalValues("UI_Mail") .. " and/or visit the project page at " .. MTLove_get_globalValues("UI_Website");
 MTLove_UI_Testversion								= "\nPlease report any bugs of this test version to " .. MTLove_get_globalValues("UI_Mail") .. " and visit " .. MTLove_get_globalValues("UI_Website") .. " for updates.";
-MTLove_UI_Variables_Loaded							= MTLove_UI_CMD_prefix .. "Settings for " .. UnitName("player") .. " of " .. GetCVar("realmName") .. " loaded.";
+MTLove_UI_Variables_Loaded							= MTLove_UI_CMD_prefix .. "Settings for " .. UnitName("player") .. " of " .. GetRealmName() .. " loaded.";
 MTLove_UI_Defaults									= MTLove_UI_CMD_prefix .. "Defaults for all settings loaded.";
 MTLove_UI_OldVersionDefaults						= MTLove_UI_CMD_prefix .. "Previous version too old for settings conversion. Defaults for all settings loaded.";
 MTLove_UI_GarbageClean								= MTLove_UI_CMD_prefix .. "You recently updated " .. MTLove_get_globalValues("UI_Name") .. ".\n" .. MTLove_UI_CMD_prefix .. "Your settings were cleaned.";
@@ -120,7 +120,7 @@ function MTLove_Local()
 			MTLove_UI_OnLoad									= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version") .. " von Herrmann, Tom von Randoom.org, bearbeitet von malfdawg.";
 			MTLove_UI_Releaseversion							= "\nBitte senden Sie ihre Anmerkungen an " .. MTLove_get_globalValues("UI_Mail") .. " und/oder besuchen Sie die Projekt Seite " .. MTLove_get_globalValues("UI_Website");
 			MTLove_UI_Testversion								= "\nBitte melden Sie alle Fehler dieser Test-Version an " .. MTLove_get_globalValues("UI_Mail") .. " und besuchen " .. MTLove_get_globalValues("UI_Website") .. " für Aktualisierungen.";
-			MTLove_UI_Variables_Loaded							= MTLove_UI_CMD_prefix .. "Einstellungen für " .. UnitName("player") .. " auf " .. GetCVar("realmName") .. " geladen.";
+			MTLove_UI_Variables_Loaded							= MTLove_UI_CMD_prefix .. "Einstellungen für " .. UnitName("player") .. " auf " .. GetRealmName() .. " geladen.";
 			MTLove_UI_Defaults									= MTLove_UI_CMD_prefix .. "Standards für alle Einstellungen geladen.";
 			MTLove_UI_OldVersionDefaults						= MTLove_UI_CMD_prefix .. "Vorherige Version zu alt um Einstellungen zu konvertieren. Standards für alle Einstellungen geladen.";
 			MTLove_UI_GarbageClean								= MTLove_UI_CMD_prefix .. "Sie haben vor kurzem " .. MTLove_get_globalValues("UI_Name") .. " aktualisiert.\n" .. MTLove_UI_CMD_prefix .. "Ihre Einstellungen wurden bereinigt.";

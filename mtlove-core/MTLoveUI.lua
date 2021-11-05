@@ -35,9 +35,9 @@ function MTLove_GUI_reset_to_defaults()
 end
 
 function MTLove_UI_playSound(set)
-	local sound	= "igMainMenuOptionCheckBoxOff";
+	local sound	= SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_OFF;
 	if (set) then
-		sound 	= "igMainMenuOptionCheckBoxOn";
+		sound 	= SOUNDKIT.IG_MAINMENU_OPTION_CHECKBOX_ON;
 	end
 	PlaySound(sound);
 end

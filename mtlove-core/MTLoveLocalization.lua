@@ -38,7 +38,7 @@ MTLove_UI_OwnPet									= "(your Pet)";
 MTLove_UI_Pet										= "Pet";
 MTLove_UI_NPC										= "Npc";
 MTLove_UI_Boss										= "BOSS";
-MTLove_GUI_General_Options_Category_Text			= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version");
+MTLove_GUI_General_Options_Category_Text			= MTLove_get_globalValues("UI_Name");
 MTLove_GUI_General_Options_Panel_Title_Text			= MTLove_get_globalValues("UI_Name") .. " - General Options";
 MTLove_GUI_General_Options_Panel_SubText_Text		= "These options allow you to control which main features of " .. MTLove_get_globalValues("UI_Name") .. " are used and visible within the game field while you play. Please note the '+'-button extending this category and read the 'Counters' section.";
 MTLove_GUI_BT_Frame_Text							= "enable the frame";
@@ -134,7 +134,7 @@ function MTLove_Local()
 			MTLove_UI_Pet										= "Begleiter";
 			MTLove_UI_NPC										= "Npc";
 			MTLove_UI_Boss										= "BOSS";
-			MTLove_GUI_General_Options_Category_Text			= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version");
+			MTLove_GUI_General_Options_Category_Text			= MTLove_get_globalValues("UI_Name");
 			MTLove_GUI_General_Options_Panel_Title_Text			= MTLove_get_globalValues("UI_Name") .. " - Allgemeine Optionen";
 			MTLove_GUI_General_Options_Panel_SubText_Text		= "Diese Optionen erlauben einzustellen welche der Haupt-Funktionen von " .. MTLove_get_globalValues("UI_Name") .. " benutzt und in Spiel angezeigt werden. Bitte achten Sie auf den diese Kategorie erweiternden Plus-Knopf und die 'Zähler' Seite.";
 			MTLove_GUI_BT_Frame_Text							= "Frame aktivieren";

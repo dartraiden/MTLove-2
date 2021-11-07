@@ -1,12 +1,13 @@
 ## Title: MTLove 2
 ## Interface: 90105
 ## Version: 2.4.5
-## X-Date: 2021/11/05
+## X-Date: 2021/11/08
 ## Author: malfdawg, dartraiden
 ## X-Email: malfunction85@gmail.com
 ## X-Website: http://randoom.org/Software/MTLove2
 ## Notes: This addon adds a "target of mouseover" function to the wow-client.
 ## Notes-deDE: Dieses Addon fügt dem WOW-Client eine "target of mouseover" Funktion hinzu.
+## Notes-ruRU: Модификация добавляет функцию "показать цель персонажа, на которого наведён ваш курсор".
 ## OptionalDeps: myAddOns, tipbuddy, oRA3, CT_RaidAssist;
 ## SavedVariablesPerCharacter: MTLove_SavedVariables
 ## X-Category: MYADDONS_CATEGORY_COMBAT

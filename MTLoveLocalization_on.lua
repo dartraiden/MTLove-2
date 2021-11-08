@@ -8,6 +8,6 @@ MTLove_UI_Localization	= "default";
 
 	If here is no localization for your language or its is
 	outdated and disabled and you want add or update it,
-	send a short e-mail to info@randoom.org.
+	create an issue on https://github.com/dartraiden/MTLove-2/issues.
 	Thanks
 ]]

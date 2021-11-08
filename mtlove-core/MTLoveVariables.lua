@@ -1,7 +1,7 @@
 --[[	MTLove 2 is a 'small' World Of Warcraft Addon which adds
 		a "target of mouseover" function to the client.
 		Copyright (C) 2006-2013 Herrmann, Tom
-		from Randoom.org edited by malfdawg
+		from Randoom.org edited by malfdawg and dartraiden.
 
 		This file is part of MTLove 2.
 
@@ -86,7 +86,7 @@ local MTLove_globalValues							= {};
 MTLove_globalValues["UI_Name"]						= GetAddOnMetadata("MTLove", "Title");
 MTLove_globalValues["UI_ClientLanguage"]			= GetLocale();
 MTLove_globalValues["UI_Version"]					= GetAddOnMetadata("MTLove", "Version");
-MTLove_globalValues["UI_Mail"]						= GetAddOnMetadata("MTLove", "X-Email");
+MTLove_globalValues["UI_Issues"]					= GetAddOnMetadata("MTLove", "X-Website") .. "/issues";
 MTLove_globalValues["UI_Website"]					= GetAddOnMetadata("MTLove", "X-Website");
 MTLove_globalValues["Version_Major"]				= string.sub(MTLove_globalValues["UI_Version"], 1, 1);
 MTLove_globalValues["Version_Minor"]				= string.sub(MTLove_globalValues["UI_Version"], 3, 3);

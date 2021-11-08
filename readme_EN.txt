@@ -1,7 +1,7 @@
 MTLove v2.4.4a by Herrmann, Tom
-from Randoom.org
+from Randoom.org eddited by malfdawg and dartraiden.
 
- eddited by malfdawg This addon adds a "target of mouseover" function to the wow-client
+This addon adds a "target of mouseover" function to the wow-client
 (the "mouseover" is the unit who is under your mouse-cursor).
 The main advantage compared to Blizzard's built-in function is that you don't need to switch your
 target to get this information which is much faster, especially in combat and you can still cast

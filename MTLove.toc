@@ -4,7 +4,7 @@
 ## X-Date: 2021/11/08
 ## Author: malfdawg, dartraiden
 ## X-Email: malfunction85@gmail.com
-## X-Website: http://randoom.org/Software/MTLove2
+## X-Website: https://github.com/dartraiden/MTLove-2
 ## Notes: This addon adds a "target of mouseover" function to the wow-client.
 ## Notes-deDE: Dieses Addon fügt dem WOW-Client eine "target of mouseover" Funktion hinzu.
 ## Notes-ruRU: Модификация добавляет функцию "показать цель персонажа, на которого наведён ваш курсор".

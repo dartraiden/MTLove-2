@@ -1,7 +1,7 @@
 --[[	MTLove 2 is a 'small' World Of Warcraft Addon which adds
 		a "target of mouseover" function to the client.
 		Copyright (C) 2006-2013 Herrmann, Tom
-		from Randoom.org edit by malfdawg
+		from Randoom.org edited by malfdawg and dartraiden.
 
 		This file is part of MTLove 2.
 
@@ -21,9 +21,9 @@
 local MTLove_UI_CMD_prefix							= "MTLove 2: ";
 MTLove_GUI_License									= MTLove_get_globalValues("UI_Name") .. " is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation.\n\n" .. MTLove_get_globalValues("UI_Name") .. " is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.";
 
-MTLove_UI_OnLoad									= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version") .. " by Herrmann, Tom from Randoom.org, edited by malfdawg.";
-MTLove_UI_Releaseversion							= "\nPlease send your feedback to " .. MTLove_get_globalValues("UI_Mail") .. " and/or visit the project page at " .. MTLove_get_globalValues("UI_Website");
-MTLove_UI_Testversion								= "\nPlease report any bugs of this test version to " .. MTLove_get_globalValues("UI_Mail") .. " and visit " .. MTLove_get_globalValues("UI_Website") .. " for updates.";
+MTLove_UI_OnLoad									= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version") .. " by Herrmann, Tom from Randoom.org, edited by malfdawg and dartraiden.";
+MTLove_UI_Releaseversion							= "\nPlease send your feedback to " .. MTLove_get_globalValues("UI_Issues") .. " and/or visit the project page at " .. MTLove_get_globalValues("UI_Website");
+MTLove_UI_Testversion								= "\nPlease report any bugs of this test version to " .. MTLove_get_globalValues("UI_Issues") .. " and visit " .. MTLove_get_globalValues("UI_Website") .. " for updates.";
 MTLove_UI_Variables_Loaded							= MTLove_UI_CMD_prefix .. "Settings for " .. UnitName("player") .. " of " .. GetRealmName() .. " loaded.";
 MTLove_UI_Defaults									= MTLove_UI_CMD_prefix .. "Defaults for all settings loaded.";
 MTLove_UI_OldVersionDefaults						= MTLove_UI_CMD_prefix .. "Previous version too old for settings conversion. Defaults for all settings loaded.";
@@ -117,9 +117,9 @@ MTLove_GUI_BT_Experimental_Features_Text			= "experimental CT_RaidAssist support
 function MTLove_Local()
 	if ((MTLove_get_globalValues("UI_ClientLanguage") ~= "enUS") and (MTLove_get_globalValues("UI_ClientLanguage") ~= "enGB")) then
 		if (MTLove_get_globalValues("UI_ClientLanguage") == "deDE") then
-			MTLove_UI_OnLoad									= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version") .. " von Herrmann, Tom von Randoom.org, bearbeitet von malfdawg.";
-			MTLove_UI_Releaseversion							= "\nBitte senden Sie ihre Anmerkungen an " .. MTLove_get_globalValues("UI_Mail") .. " und/oder besuchen Sie die Projekt Seite " .. MTLove_get_globalValues("UI_Website");
-			MTLove_UI_Testversion								= "\nBitte melden Sie alle Fehler dieser Test-Version an " .. MTLove_get_globalValues("UI_Mail") .. " und besuchen " .. MTLove_get_globalValues("UI_Website") .. " für Aktualisierungen.";
+			MTLove_UI_OnLoad									= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version") .. " von Herrmann, Tom von Randoom.org, bearbeitet von malfdawg und dartraiden.";
+			MTLove_UI_Releaseversion							= "\nBitte senden Sie ihre Anmerkungen an " .. MTLove_get_globalValues("UI_Issues") .. " und/oder besuchen Sie die Projekt Seite " .. MTLove_get_globalValues("UI_Website");
+			MTLove_UI_Testversion								= "\nBitte melden Sie alle Fehler dieser Test-Version an " .. MTLove_get_globalValues("UI_Issues") .. " und besuchen " .. MTLove_get_globalValues("UI_Website") .. " für Aktualisierungen.";
 			MTLove_UI_Variables_Loaded							= MTLove_UI_CMD_prefix .. "Einstellungen für " .. UnitName("player") .. " auf " .. GetRealmName() .. " geladen.";
 			MTLove_UI_Defaults									= MTLove_UI_CMD_prefix .. "Standards für alle Einstellungen geladen.";
 			MTLove_UI_OldVersionDefaults						= MTLove_UI_CMD_prefix .. "Vorherige Version zu alt um Einstellungen zu konvertieren. Standards für alle Einstellungen geladen.";
@@ -210,9 +210,9 @@ function MTLove_Local()
 			MTLove_GUI_Disabled									= "DEAKTIVIERT";
 			MTLove_GUI_BT_Experimental_Features_Text			= "experimentelle CT_RaidAssist Unterstützung";
 		elseif (MTLove_get_globalValues("UI_ClientLanguage") == "ruRU") then
-			MTLove_UI_OnLoad									= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version") .. " от Tom Herrmann с Randoom.org, с правками от malfdawg.";
-			MTLove_UI_Releaseversion							= "\nПожалуйста, присылайте отзывы на " .. MTLove_get_globalValues("UI_Mail") .. " и/или посетите сайт проекта, расположенный по адресу " .. MTLove_get_globalValues("UI_Website");
-			MTLove_UI_Testversion								= "\nПожалуйста, сообщайте об ошибках этой версии для тестирования на " .. MTLove_get_globalValues("UI_Mail") .. " и посетите " .. MTLove_get_globalValues("UI_Website") .. ", чтобы получить обновлённую версию.";
+			MTLove_UI_OnLoad									= MTLove_get_globalValues("UI_Name") .. " v" .. MTLove_get_globalValues("UI_Version") .. " от Tom Herrmann с Randoom.org, с правками от malfdawg и dartraiden.";
+			MTLove_UI_Releaseversion							= "\nПожалуйста, присылайте отзывы на " .. MTLove_get_globalValues("UI_Issues") .. " и/или посетите сайт проекта, расположенный по адресу " .. MTLove_get_globalValues("UI_Website");
+			MTLove_UI_Testversion								= "\nПожалуйста, сообщайте об ошибках этой версии для тестирования на " .. MTLove_get_globalValues("UI_Issues") .. " и посетите " .. MTLove_get_globalValues("UI_Website") .. ", чтобы получить обновлённую версию.";
 			MTLove_UI_Variables_Loaded							= MTLove_UI_CMD_prefix .. "Загружены настройки персонажа " .. UnitName("player") .. " с игрового мира " .. GetRealmName() .. ".";
 			MTLove_UI_Defaults									= MTLove_UI_CMD_prefix .. "Загружены настройки по умолчанию.";
 			MTLove_UI_OldVersionDefaults						= MTLove_UI_CMD_prefix .. "Предыдущая версия слишком стара, чтобы можно было преобразовать настройки в новый формат. Загружены настройки по умолчанию.";
@@ -303,7 +303,7 @@ function MTLove_Local()
 			MTLove_GUI_Disabled									= "ОТКЛЮЧЁН";
 			MTLove_GUI_BT_Experimental_Features_Text			= "экспериментальная поддержка CT_RaidAssist";
 		else
-			MTLove_UI_Variables_Loaded							= MTLove_UI_Variables_Loaded .. "\nThere is no localization for your language\nIf you want to help me to add or update it, please send me a short e-mail to " .. MTLove_get_globalValues("UI_Mail") .. ".\nThanks"
+			MTLove_UI_Variables_Loaded							= MTLove_UI_Variables_Loaded .. "\nThere is no localization for your language\nIf you want to help me to add or update it, please create an issue on " .. MTLove_get_globalValues("UI_Issues") .. ".\nThanks"
 		end
 	end
 	MTLove_GUI_BT_Mo_Friendly_PartyMember_Player_Text	= MTLove_GUI_BT_Mot_Friendly_PartyMember_Player_Text;

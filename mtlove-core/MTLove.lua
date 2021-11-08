@@ -1,7 +1,7 @@
 --[[	MTLove 2 is a 'small' World Of Warcraft Addon which adds
 		a "target of mouseover" function to the client.
 		Copyright (C) 2006-2013 Herrmann, Tom
-		from Randoom.org edit by malfdawg
+		from Randoom.org edit by malfdawg and dartraiden.
 
 		This file is part of MTLove 2.
 

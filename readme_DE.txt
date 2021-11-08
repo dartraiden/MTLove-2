@@ -1,5 +1,5 @@
 MTLove v2.4.4a von Herrmann, Tom
-von Randoom.org und malfdawg 
+von Randoom.org und malfdawg und dartraiden.
 
 Dieses Addon fügt dem WOW-Client eine "target of mouseover"-Funktion hinzu
 (das "target of mouseover" ist das Ziel des "Mouseovers", also der Einheit die sich unter dem

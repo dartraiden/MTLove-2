@@ -92,7 +92,7 @@
 			</OnValueChanged>
 		</Scripts>
 	</Slider>
-	<Button name="MTLoveOptionsButtonTemplate" inherits="OptionsButtonTemplate" virtual="true">
+	<Button name="MTLoveOptionsButtonTemplate" inherits="UIPanelButtonTemplate" virtual="true">
 		<Size x="1" y="22"/>
 		<NormalFont style="GameFontNormalSmall"/>
 		<DisabledFont style="GameFontDisableSmall"/>

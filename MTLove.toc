@@ -1,7 +1,7 @@
 ## Title: MTLove 2
-## Interface: 90105
-## Version: 2.4.5
-## X-Date: 2021/11/08
+## Interface: 100002
+## Version: 2.4.6
+## X-Date: 2022/11/20
 ## Author: malfdawg, dartraiden
 ## X-Email: malfunction85@gmail.com
 ## X-Website: https://github.com/dartraiden/MTLove-2
